@@ -10,38 +10,57 @@ import java.util.List;
     также этот класс может содержать рутинные функции по сравнению слов, букв и т.д.
  */
 public class WordleDictionary {
-    private List<String> normalizedDictionary;
-    private WordleDictionaryLoader wdl;
-    private static DictionaryLogger wdLogger;
+    protected static DictionaryLogger wdLogger;
+    final List<String> normalizedDictionary;
 
-
-    public WordleDictionary(String path) {
-        wdl = new WordleDictionaryLoader();
-        normalizedDictionary = new ArrayList<>();
+    public WordleDictionary(String path) throws IOException, IllegalAccessException {
+        //логирование WordleDictionary
         wdLogger = new DictionaryLogger(WordleDictionary.class);
+
+        //получение "сырого" словаря
+        WordleDictionaryLoader wdl = new WordleDictionaryLoader();
+        List<String> rawDictionary = wdl.loadFromFile(path);
+
+        //процесс нормализации
+        this.normalizedDictionary = filteredWords(rawDictionary);
     }
 
-    public List<String> getCleanDictionary(List<String> dictionary) throws IOException {
+    private List<String> filteredWords(List<String> rawDictionary) throws IllegalAccessException {
+        List<String> tempDict = new ArrayList<>();
         wdLogger.infoLog("Начата нормализация словаря");
-        try {
-            for (String word : dictionary) {
-                if (word.length() == 5 && isRussianWord(word.toLowerCase().replace("ё", "е"))) {
-                    normalizedDictionary.add(word);
+        for (String word : rawDictionary) {
+            if (word.length() == 5) {
+                if(isRussianWord(word.toLowerCase())){
+                    tempDict.add(word.toLowerCase().replace("ё", "е"));
                 }
             }
-            wdLogger.infoLog("Нормализация выполнена успешно");
-            return normalizedDictionary;
-        } catch (IOException e) {
-            wdLogger.crushLog();
         }
+
+        if (tempDict.isEmpty()) {
+            wdLogger.crushLog("Вероятно список пуст");
+            throw new IllegalAccessException();
+        }
+
+        return tempDict;
     }
 
     private boolean isRussianWord(String word) {
-        for (char c : word.toCharArray()) {
-            if (c < 'а' || c > 'я') {
-                return false;
-            }
-        }
-        return true;
+        /* Коммент для себя в будущем
+         * Проверка того, что слово состоит ТОЛЬКО из русских букв (а мало ли?)
+         *
+         * 1. Превращаем строку в IntStream кодов символов (chars())
+         * 2. Для каждого символа определяем его Unicode-блок
+         * 3. Убеждаемся, что ВСЕ символы принадлежат блоку CYRILLIC
+         *
+         * allMatch чтобы не пропускать слова из смешанных символов rus/eng
+         */
+
+        return word.chars()
+                .mapToObj(Character.UnicodeBlock::of)
+                .allMatch(b -> b.equals(Character.UnicodeBlock.CYRILLIC));
+    }
+
+    public List<String> getNormalizedDictionary() {
+        return normalizedDictionary;
     }
 }

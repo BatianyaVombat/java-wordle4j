@@ -30,8 +30,8 @@ public class WordleDictionaryLoader {
             while (fileReader.ready()) {
                 line = fileReader.readLine();
 
-                if (!line.trim().isEmpty()) {
-                    unsortedWords.add(line);
+                if (!line.isBlank()) {
+                    unsortedWords.add(line.trim());
                 }
             }
             wdlLogger.infoLog("Загружено: " + unsortedWords.size() + " слов.");

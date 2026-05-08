@@ -2,9 +2,6 @@ package ru.yandex.practicum;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-
 
 /*
 в главном классе нам нужно:
@@ -16,17 +13,12 @@ import java.util.logging.Logger;
     вывести состояние игры и конечный результат
  */
 public class Wordle {
-    private static final WordleDictionary wDictionary = new WordleDictionary("src/text.txt");
-
-    public static void main(String[] args) {
+    static void main(String[] args) {
         try {
-            List<String> outWords = wDictionary.getCleanDictionary();
-
-            for(String word : outWords){
-                System.out.println(word);
-            }
-        } catch (IOException e) {
-            System.out.println("Файл со словарём пустой!");
+            WordleDictionary wDictionary = new WordleDictionary("src/text.txt");
+            System.out.println(wDictionary.getNormalizedDictionary());
+        } catch (IOException | IllegalAccessException e) {
+            System.out.println("Проблема со словарём! Поиграем в другой раз!");
         }
     }
 }
