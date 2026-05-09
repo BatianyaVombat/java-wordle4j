@@ -15,18 +15,15 @@ import java.util.List;
 
 public class WordleDictionaryLoader {
     private final List<String> unsortedWords;
-    private static DictionaryLogger wdlLogger;
     protected String line;
 
     public WordleDictionaryLoader() {
         unsortedWords = new ArrayList<>();
-        wdlLogger = new DictionaryLogger(WordleDictionaryLoader.class);
     }
 
     public List<String> loadFromFile(String path) throws IOException {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(path, StandardCharsets.UTF_8))) {
-            wdlLogger.infoLog("Начата загрузка словаря из файла: " + path);
-
+            WordleLogger.infoLog(STR."Начата загрузка словаря: \{path}");
             while (fileReader.ready()) {
                 line = fileReader.readLine();
 
@@ -34,17 +31,16 @@ public class WordleDictionaryLoader {
                     unsortedWords.add(line.trim());
                 }
             }
-            wdlLogger.infoLog("Загружено: " + unsortedWords.size() + " слов.");
+
         } catch (IOException e) {
-            wdlLogger.crushLog("Ошибка доступа к файлу: " + path);
+            WordleLogger.crushLog(STR."Ошибка доступа к файлу: \{path}");
         }
 
         if (unsortedWords.isEmpty()){
-            wdlLogger.crushLog("Словарь не загружен: файл пуст!");
+            WordleLogger.crushLog("Словарь не загружен: файл пуст!");
             throw new IOException();
         }
 
-        wdlLogger.dictionaryLoggerClose();
         return unsortedWords;
     }
 }

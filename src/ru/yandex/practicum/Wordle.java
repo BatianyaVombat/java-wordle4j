@@ -13,10 +13,14 @@ import java.util.List;
     вывести состояние игры и конечный результат
  */
 public class Wordle {
+    public static final WordleLogger wordleLogger = new WordleLogger();
     static void main(String[] args) {
+        wordleLogger.init();
         try {
             WordleDictionary wDictionary = new WordleDictionary("src/text.txt");
-            System.out.println(wDictionary.getNormalizedDictionary());
+            WordleGame wg = new WordleGame(wDictionary);
+            wg.startGame();
+
         } catch (IOException | IllegalAccessException e) {
             System.out.println("Проблема со словарём! Поиграем в другой раз!");
         }
