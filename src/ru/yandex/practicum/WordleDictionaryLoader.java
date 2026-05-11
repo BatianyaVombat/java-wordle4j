@@ -30,7 +30,7 @@ public class WordleDictionaryLoader {
             WordleLogger.crushLog(STR."Ошибка доступа к файлу: \{path}");
         }
 
-        if (unsortedWords.isEmpty()){
+        if (unsortedWords.isEmpty()) {
             WordleLogger.crushLog("Словарь не загружен: файл пуст!");
             throw new IOException();
         }
