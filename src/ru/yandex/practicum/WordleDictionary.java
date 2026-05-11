@@ -5,26 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/*
-этот класс содержит в себе список слов List<String>
-    его методы похожи на методы списка, но учитывают особенности игры
-    также этот класс может содержать рутинные функции по сравнению слов, букв и т.д.
- */
+
 public class WordleDictionary {
     private final Random random = new Random();
     final List<String> normalizedDictionary;
 
-    public WordleDictionary(String path) throws IOException, IllegalAccessException {
+    public WordleDictionary(String path) throws IOException, DictionaryException {
         //получение "сырого" словаря
         WordleDictionaryLoader wdl = new WordleDictionaryLoader();
         List<String> rawDictionary = wdl.loadFromFile(path);
 
-        //нормализация
+        //нормализованный словарь
         this.normalizedDictionary = filteredWords(rawDictionary);
     }
 
     //метод для нормализации словаря
-    private List<String> filteredWords(List<String> rawDictionary) throws IllegalAccessException {
+    private List<String> filteredWords(List<String> rawDictionary) {
         List<String> tempDict = new ArrayList<>();
         WordleLogger.infoLog("Начата нормализация словаря");
         for (String word : rawDictionary) {
@@ -36,10 +32,10 @@ public class WordleDictionary {
         }
 
         if (tempDict.isEmpty()) {
-            WordleLogger.crushLog("Проблема со словарём, возможно он пусто!");
-            throw new IllegalAccessException();
+            WordleLogger.crushLog("Проблема со словарём, возможно он пустой!");
+            throw new DictionaryException("В словаре нет слов удовлетворяющих правилам игры!");
         }
-        WordleLogger.infoLog("Словарь нормализован!");
+        WordleLogger.infoLog("Словарь нормализован! В словаре: " + tempDict.size() + " слов");
         return tempDict;
     }
 
@@ -63,6 +59,7 @@ public class WordleDictionary {
         return normalizedDictionary.get(random.nextInt(normalizedDictionary.size()));
     }
 
+    //сравнение слов и генерация подсказки
     public String compareWords(String target, String userGuess) {
         char[] result = new char[5];
         boolean[] used = new boolean[5];
@@ -99,6 +96,7 @@ public class WordleDictionary {
         return String.valueOf(result);
     }
 
+    //Проверка содержится ли слово пользователя в словаре
     public boolean containWord(String word){
         return normalizedDictionary.contains(word);
     }
