@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 class WordleTest {
-    private static WordleDictionaryLoader wdl;
     private static WordleDictionary wD;
     private static WordleGame game;
     private static Path emptyDictionary;

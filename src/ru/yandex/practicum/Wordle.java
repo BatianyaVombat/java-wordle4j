@@ -1,10 +1,9 @@
 package ru.yandex.practicum;
 
-import java.io.IOException;
-
 public class Wordle {
     public static final WordleLogger wordleLogger = new WordleLogger();
-    static void main(String[] args) {
+
+    public static void main(String[] args) {
         wordleLogger.initFileLogging("wordle.log");
         try {
             WordleDictionary wDictionary = new WordleDictionary("src/words_ru.txt");
