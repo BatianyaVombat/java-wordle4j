@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 class WordleTest {
-    private static WordleDictionaryLoader wdl;
     private static WordleDictionary wD;
     private static WordleGame game;
     private static Path emptyDictionary;
@@ -32,7 +31,7 @@ class WordleTest {
 
     //Проверяем поведение загрузчика, если файл пустой
     @Test
-    public void shouldThrowExceptionWhenDictionaryFileIsEmpty(){
+    public void shouldThrowExceptionWhenDictionaryFileIsEmpty() {
         Assertions.assertThrows(IOException.class, () -> {
             new WordleDictionaryLoader().loadFromFile(emptyDictionary.toString());
         });

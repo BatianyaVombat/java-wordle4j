@@ -34,7 +34,7 @@ class WordleGame {
 
         printInfo();
 
-        WordleLogger.infoLog(STR."Компьютер загадал слово - \{answer}");
+        WordleLogger.infoLog("Компьютер загадал слово " + answer);
 
         do {
             System.out.println("\n" + "-".repeat(10));
@@ -50,7 +50,7 @@ class WordleGame {
                 }
 
                 validateWord(userAnswer);
-                if(userAnswer.equals(answer)){
+                if (userAnswer.equals(answer)) {
                     System.out.println("Ура, вы победили!");
                     WordleLogger.infoLog("Слово угадано");
                     return;
@@ -81,7 +81,7 @@ class WordleGame {
 
     //Предлагает слово
     protected String suggestWord() {
-        if(history.isEmpty()){
+        if (history.isEmpty()) {
             return dictionary.getRandomWord();
         }
 
