@@ -17,7 +17,7 @@ public class WordleDictionaryLoader {
 
     public List<String> loadFromFile(String path) throws IOException {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(path, StandardCharsets.UTF_8))) {
-            WordleLogger.infoLog(STR."Начата загрузка словаря: \{path}");
+            WordleLogger.infoLog("Начата загрузка словаря: " + path);
             while (fileReader.ready()) {
                 line = fileReader.readLine();
 
@@ -27,10 +27,10 @@ public class WordleDictionaryLoader {
             }
 
         } catch (IOException e) {
-            WordleLogger.crushLog(STR."Ошибка доступа к файлу: \{path}");
+            WordleLogger.crushLog("Ошибка доступа к файлу: " + path);
         }
 
-        if (unsortedWords.isEmpty()){
+        if (unsortedWords.isEmpty()) {
             WordleLogger.crushLog("Словарь не загружен: файл пуст!");
             throw new IOException();
         }

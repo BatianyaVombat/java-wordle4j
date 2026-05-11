@@ -97,7 +97,7 @@ public class WordleDictionary {
     }
 
     //Проверка содержится ли слово пользователя в словаре
-    public boolean containWord(String word){
+    public boolean containWord(String word) {
         return normalizedDictionary.contains(word);
     }
 }
