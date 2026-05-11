@@ -39,7 +39,7 @@ public class WordleLogger {
         logger.warning(str);
     }
 
-    public static void WordleLoggerClose() {
+    public static void wordleLoggerClose() {
         infoLog("Логгер закрыт.");
         fileHandler.close();
     }

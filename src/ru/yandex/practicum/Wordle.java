@@ -9,7 +9,7 @@ public class Wordle {
             WordleDictionary wDictionary = new WordleDictionary("src/words_ru.txt");
             WordleGame wg = new WordleGame(wDictionary);
             wg.startGame();
-            WordleLogger.WordleLoggerClose();
+            WordleLogger.wordleLoggerClose();
         } catch (Exception e) {
             System.out.println("Проблема со словарём! Поиграем в другой раз!");
         }
